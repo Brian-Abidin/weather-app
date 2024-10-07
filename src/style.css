@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background-color: azure;
 }
 
 .wrapper {
@@ -18,7 +19,6 @@ body {
   gap: 10px;
   position: relative;
   z-index: 10;
-  flex: 0 1 auto;
 }
 
 h1 {
@@ -63,12 +63,34 @@ input,
 
 .wrapper main {
   height: calc(100vh - (64px + 50px));
-  flex: 1 1 auto;
   background-color: aqua;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.info-wrapper {
+  height: max-content;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-box {
+  height: 80px;
+  width: 100%;
+  min-width: 200px;
+  background-color: yellow;
+  border: 2px solid grey;
 }
 
 footer {
-  flex: 0 1 50px;
+  display: none;
+  height: 50px;
   background-color: bisque;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

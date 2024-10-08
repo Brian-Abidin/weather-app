@@ -26,14 +26,6 @@ h1 {
   text-shadow: 1px 1px rgb(109, 109, 109);
 }
 
-a {
-  text-decoration: none;
-  font-size: 20px;
-  color: white;
-  background-color: aquamarine;
-  margin-left: 20px;
-}
-
 .search-wrapper {
   border: 1px solid black;
   max-width: fit-content;

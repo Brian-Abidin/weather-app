@@ -37,6 +37,24 @@ function addInfoBox() {
   }
 }
 
+function inputWeatherData(weatherData) {
+  location.textContent = weatherData.resolvedAddress;
+
+  for (let i = 0; i < 7; i += 1) {
+    const day = document.getElementById(`day-${i + 1}`);
+    const temp = document.getElementById(`temp-${i + 1}`);
+    const condition = document.getElementById(`condition-${i + 1}`);
+    const rain = document.getElementById(`rain-${i + 1}`);
+    const wind = document.getElementById(`wind-${i + 1}`);
+
+    day.textContent = weatherData.days[i].datetime;
+    temp.textContent = `${weatherData.days[i].temp}F`;
+    condition.textContent = weatherData.days[i].conditions;
+    rain.textContent = `Precipitation: ${weatherData.days[i].precipprob}%`;
+    wind.textContent = `${weatherData.days[i].windspeed} mph`;
+  }
+}
+
 async function getWeather(input) {
   try {
     const response = await fetch(
@@ -50,14 +68,7 @@ async function getWeather(input) {
     console.log("condition:", weatherData.days[0].conditions);
     console.log("rain:", weatherData.days[0].precipprob);
     console.log("wind:", weatherData.days[0].windspeed);
-
-    location.textContent = weatherData.resolvedAddress;
-
-    day.textContent = weatherData.days[0].datetime;
-    temp.textContent = `${weatherData.days[0].temp}F`;
-    condition.textContent = weatherData.days[0].conditions;
-    rain.textContent = `Precipitation: ${weatherData.days[0].precipprob}%`;
-    wind.textContent = `${weatherData.days[0].windspeed} mph`;
+    inputWeatherData(weatherData);
   } catch (error) {
     console.log(error);
   }

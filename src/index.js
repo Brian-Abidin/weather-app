@@ -1,5 +1,6 @@
 import "./style.css";
 
+const location = document.getElementById("info-location");
 const day = document.getElementById("day-1");
 const temp = document.getElementById("temp-1");
 const condition = document.getElementById("condition-1");
@@ -9,7 +10,7 @@ const wind = document.getElementById("wind-1");
 async function getWeather() {
   try {
     const response = await fetch(
-      "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london?key=LHYLQPPB3KWXWZBGLTXZZC7UT",
+      "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/melbourne-united-states?key=LHYLQPPB3KWXWZBGLTXZZC7UT",
       { mode: "cors" }
     );
     const weatherData = await response.json();
@@ -20,6 +21,7 @@ async function getWeather() {
     console.log("rain:", weatherData.days[0].precipprob);
     console.log("wind:", weatherData.days[0].windspeed);
 
+    location.textContent = weatherData.resolvedAddress;
     day.textContent = weatherData.days[0].datetime;
     temp.textContent = `${weatherData.days[0].temp}F`;
     condition.textContent = weatherData.days[0].conditions;

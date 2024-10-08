@@ -2,6 +2,7 @@ import "./style.css";
 
 const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
+const infoWrapper = document.getElementById("info-wrapper");
 const location = document.getElementById("info-location");
 const day = document.getElementById("day-1");
 const temp = document.getElementById("temp-1");
@@ -29,8 +30,6 @@ async function getWeather(input) {
     condition.textContent = weatherData.days[0].conditions;
     rain.textContent = `Precipitation: ${weatherData.days[0].precipprob}%`;
     wind.textContent = `${weatherData.days[0].windspeed} mph`;
-    // const catData = await response.json();
-    // img.src = catData.data.images.original.url;
   } catch (error) {
     console.log(error);
   }
@@ -40,6 +39,17 @@ searchButton.addEventListener("click", () => {
   console.log(searchInput.value);
   getWeather(searchInput.value);
 });
+
+function addInfoBox() {
+  const infoBox = document.createElement("div");
+  for (let i = 0; i < 5; i += 1) {
+    const newDiv = document.createElement("div");
+    infoBox.appendChild(newDiv);
+  }
+  infoWrapper.appendChild(infoBox);
+}
+
+addInfoBox();
 
 // add loop that does getWeather 7 times, one for each day of the week
 // add DOM elements that input this data into the HTML

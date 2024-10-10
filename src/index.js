@@ -4,6 +4,7 @@ const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
 const infoWrapper = document.getElementById("info-wrapper");
 const location = document.getElementById("info-location");
+const toggleButton = document.getElementById("toggle-button");
 
 function addInfoBox() {
   for (let i = 0; i < 7; i += 1) {
@@ -38,7 +39,56 @@ function addInfoBox() {
   }
 }
 
-function EpochToDay(time) {
+function fahrenheitToCelsius(fahrenheit) {
+  const celsius = ((fahrenheit - 32) * (5 / 9)).toFixed(1);
+  return celsius;
+}
+
+function CelsiusToFahrenheit(celsius) {
+  const fahrenheit = (celsius * (9 / 5) + 32).toFixed(1);
+  return fahrenheit;
+}
+
+function changeUnits() {
+  const regex = /\d+[.]\d+|\d/gm;
+
+  if (toggleButton.textContent === "Imperial") {
+    toggleButton.textContent = "Metric";
+    for (let i = 0; i < 7; i += 1) {
+      const temp = document.getElementById(`temp-${i + 1}`);
+      const wind = document.getElementById(`wind-${i + 1}`);
+
+      console.log(temp.textContent.match(regex));
+      const metricTemp = fahrenheitToCelsius(
+        Number(temp.textContent.match(regex).join(""))
+      );
+      const metricWind = (
+        Number(wind.textContent.match(regex).join("")) * 1.60934
+      ).toFixed(1);
+
+      temp.textContent = `${metricTemp} °C`;
+      wind.textContent = `Wind: ${metricWind} kph`;
+    }
+  } else {
+    toggleButton.textContent = "Imperial";
+    for (let i = 0; i < 7; i += 1) {
+      const temp = document.getElementById(`temp-${i + 1}`);
+      const wind = document.getElementById(`wind-${i + 1}`);
+
+      const metricTemp = CelsiusToFahrenheit(
+        Number(temp.textContent.match(regex).join(""))
+      );
+      const metricWind = (
+        Number(wind.textContent.match(regex).join("")) / 1.60934
+      ).toFixed(1);
+
+      temp.textContent = `${metricTemp} °F`;
+      wind.textContent = `Wind: ${metricWind} mph`;
+    }
+  }
+}
+
+function epochToDay(time) {
   const dayName = new Date(time * 1000);
   return dayName.toString().slice(0, 10);
 }
@@ -53,11 +103,11 @@ function inputWeatherData(weatherData) {
     const rain = document.getElementById(`rain-${i + 1}`);
     const wind = document.getElementById(`wind-${i + 1}`);
 
-    day.textContent = EpochToDay(weatherData.days[i].datetimeEpoch);
+    day.textContent = epochToDay(weatherData.days[i].datetimeEpoch);
     temp.textContent = `${weatherData.days[i].temp} °F`;
     condition.textContent = weatherData.days[i].conditions;
     rain.textContent = `Precipitation: ${weatherData.days[i].precipprob}%`;
-    wind.textContent = `${weatherData.days[i].windspeed} mph`;
+    wind.textContent = `Wind: ${weatherData.days[i].windspeed} mph`;
   }
 }
 
@@ -68,12 +118,6 @@ async function getWeather(input) {
       { mode: "cors" }
     );
     const weatherData = await response.json();
-    console.log("info", weatherData);
-    console.log("day:", weatherData.days[0].datetime);
-    console.log("temp:", weatherData.days[0].temp);
-    console.log("condition:", weatherData.days[0].conditions);
-    console.log("rain:", weatherData.days[0].precipprob);
-    console.log("wind:", weatherData.days[0].windspeed);
     inputWeatherData(weatherData);
   } catch (error) {
     console.log(error);
@@ -81,12 +125,16 @@ async function getWeather(input) {
 }
 
 searchButton.addEventListener("click", () => {
-  console.log(searchInput.value);
+  toggleButton.textContent = "Imperial";
   getWeather(searchInput.value);
 });
 
 window.addEventListener("load", (event) => {
   addInfoBox();
+});
+
+toggleButton.addEventListener("click", () => {
+  changeUnits();
 });
 // add loop that does getWeather 7 times, one for each day of the week
 // add DOM elements that input this data into the HTML

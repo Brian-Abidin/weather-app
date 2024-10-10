@@ -4,11 +4,6 @@ const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
 const infoWrapper = document.getElementById("info-wrapper");
 const location = document.getElementById("info-location");
-const day = document.getElementById("day-1");
-const temp = document.getElementById("temp-1");
-const condition = document.getElementById("condition-1");
-const rain = document.getElementById("rain-1");
-const wind = document.getElementById("wind-1");
 
 function addInfoBox() {
   for (let i = 0; i < 7; i += 1) {
@@ -20,6 +15,12 @@ function addInfoBox() {
     const infoWind = document.createElement("div");
 
     infoBox.classList.add("info-box");
+    infoDay.classList.add("day");
+    infoTemp.classList.add("temp");
+    infoCondition.classList.add("condition");
+    infoRain.classList.add("rain");
+    infoWind.classList.add("wind");
+
     infoBox.setAttribute("id", `box-${i + 1}`);
     infoDay.setAttribute("id", `day-${i + 1}`);
     infoTemp.setAttribute("id", `temp-${i + 1}`);
@@ -53,7 +54,7 @@ function inputWeatherData(weatherData) {
     const wind = document.getElementById(`wind-${i + 1}`);
 
     day.textContent = EpochToDay(weatherData.days[i].datetimeEpoch);
-    temp.textContent = `${weatherData.days[i].temp}F`;
+    temp.textContent = `${weatherData.days[i].temp} °F`;
     condition.textContent = weatherData.days[i].conditions;
     rain.textContent = `Precipitation: ${weatherData.days[i].precipprob}%`;
     wind.textContent = `${weatherData.days[i].windspeed} mph`;

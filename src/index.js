@@ -124,6 +124,13 @@ async function getWeather(input) {
   }
 }
 
+searchInput.addEventListener("keyup", (event) => {
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    searchButton.click();
+  }
+});
+
 searchButton.addEventListener("click", () => {
   toggleButton.textContent = "Imperial";
   getWeather(searchInput.value);

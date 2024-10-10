@@ -37,6 +37,11 @@ function addInfoBox() {
   }
 }
 
+function EpochToDay(time) {
+  const dayName = new Date(time * 1000);
+  return dayName.toString().slice(0, 10);
+}
+
 function inputWeatherData(weatherData) {
   location.textContent = weatherData.resolvedAddress;
 
@@ -47,7 +52,7 @@ function inputWeatherData(weatherData) {
     const rain = document.getElementById(`rain-${i + 1}`);
     const wind = document.getElementById(`wind-${i + 1}`);
 
-    day.textContent = weatherData.days[i].datetime;
+    day.textContent = EpochToDay(weatherData.days[i].datetimeEpoch);
     temp.textContent = `${weatherData.days[i].temp}F`;
     condition.textContent = weatherData.days[i].conditions;
     rain.textContent = `Precipitation: ${weatherData.days[i].precipprob}%`;

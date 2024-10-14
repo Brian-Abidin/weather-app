@@ -4,6 +4,7 @@ const searchInput = document.getElementById("search-input");
 const searchButton = document.getElementById("search-button");
 const infoWrapper = document.getElementById("info-wrapper");
 const location = document.getElementById("info-location");
+const responseTime = document.getElementById("response-time");
 const toggleButton = document.getElementById("toggle-button");
 
 function addInfoBox() {
@@ -108,8 +109,9 @@ function epochToDay(time) {
   return dayName.toString().slice(0, 10);
 }
 
-function inputWeatherData(weatherData) {
+function inputWeatherData(weatherData, response) {
   location.textContent = weatherData.resolvedAddress;
+  responseTime.textContent = `response: ${response} ms`;
 
   for (let i = 0; i < 7; i += 1) {
     const day = document.getElementById(`day-${i + 1}`);
@@ -128,12 +130,15 @@ function inputWeatherData(weatherData) {
 
 async function getWeather(input) {
   try {
+    const start = performance.now();
     const response = await fetch(
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${input}?key=LHYLQPPB3KWXWZBGLTXZZC7UT`,
       { mode: "cors" }
     );
     const weatherData = await response.json();
-    inputWeatherData(weatherData);
+    const end = performance.now();
+    const timeInSeconds = (end - start).toFixed(0);
+    inputWeatherData(weatherData, timeInSeconds);
   } catch (error) {
     console.log(error);
   }

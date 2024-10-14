@@ -57,11 +57,18 @@ function changeUnits() {
     for (let i = 0; i < 7; i += 1) {
       const temp = document.getElementById(`temp-${i + 1}`);
       const wind = document.getElementById(`wind-${i + 1}`);
+      let metricTemp = 0;
 
-      console.log(temp.textContent.match(regex));
-      const metricTemp = fahrenheitToCelsius(
-        Number(temp.textContent.match(regex).join(""))
-      );
+      if (temp.textContent.includes("-")) {
+        metricTemp = fahrenheitToCelsius(
+          Number(temp.textContent.match(regex).join("")) * -1
+        );
+      } else {
+        metricTemp = fahrenheitToCelsius(
+          Number(temp.textContent.match(regex).join(""))
+        );
+      }
+
       const metricWind = (
         Number(wind.textContent.match(regex).join("")) * 1.60934
       ).toFixed(1);
@@ -74,10 +81,18 @@ function changeUnits() {
     for (let i = 0; i < 7; i += 1) {
       const temp = document.getElementById(`temp-${i + 1}`);
       const wind = document.getElementById(`wind-${i + 1}`);
+      let metricTemp = 0;
 
-      const metricTemp = CelsiusToFahrenheit(
-        Number(temp.textContent.match(regex).join(""))
-      );
+      if (temp.textContent.includes("-")) {
+        metricTemp = CelsiusToFahrenheit(
+          Number(temp.textContent.match(regex).join("")) * -1
+        );
+      } else {
+        metricTemp = CelsiusToFahrenheit(
+          Number(temp.textContent.match(regex).join(""))
+        );
+      }
+
       const metricWind = (
         Number(wind.textContent.match(regex).join("")) / 1.60934
       ).toFixed(1);
